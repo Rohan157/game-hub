@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Genre } from "./hooks/useGenre";
 import PlatformSelector from "./components/PlatformSelector";
 import { Platform } from "./hooks/useGames";
+import PlatformClear from "./components/PlatformClear";
 
 function App() {
   // Genre is being used in both Genre and Games component so we have to defined the state
@@ -43,6 +44,11 @@ function App() {
           selectedPlatfrom={selectedPlatform}
           onSelectPlatform={(platfrom) => setSelectedPlatform(platfrom)}
         />
+        {selectedPlatform?.name && (
+          <PlatformClear
+            clearPlatform={(platform) => setSelectedPlatform(platform)}
+          />
+        )}
         <GameGrid
           selectedPlatform={selectedPlatform}
           selectedGenre={selectedGenre}
