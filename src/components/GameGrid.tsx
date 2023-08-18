@@ -37,7 +37,7 @@ const GameGrid = ({ gameQuery }: Props) => {
       </SimpleGrid>
       {data.length === 0 && (
         <Text textAlign={"center"} fontSize="2xl" padding={5}>
-          The selected category does not have any items yet!
+          Couldn't find any result for the specific selection!
         </Text>
       )}
     </>
