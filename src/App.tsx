@@ -1,4 +1,4 @@
-import { Grid, GridItem, Show } from "@chakra-ui/react";
+import { Grid, GridItem, Show, WrapItem } from "@chakra-ui/react";
 import NavBar from "./components/NavBar";
 import GameGrid from "./components/GameGrid";
 import GenreList from "./components/GenreList";
@@ -8,15 +8,19 @@ import PlatformSelector from "./components/PlatformSelector";
 import { Platform } from "./hooks/useGames";
 import PlatformClear from "./components/PlatformClear";
 
+export interface GameQuery {
+  genre: Genre | null;
+  platform: Platform | null;
+}
+
 function App() {
   // Genre is being used in both Genre and Games component so we have to defined the state
   //at the closest parent and that in our case is App.tsx
-  const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
+  //const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
   // Now to update Genre the GenreComponent should tell app.tsx to update the state
   // becasue the component that holds the state should only change it.
-  const [selectedPlatform, setSelectedPlatform] = useState<Platform | null>(
-    null
-  );
+  //const [selectedPlatform, setSelectedPlatform] = useState<Platform | null>(null);
+  const [gameQuery, setGameQuery] = useState<GameQuery>({} as GameQuery);
   return (
     <Grid
       templateAreas={{
@@ -34,25 +38,28 @@ function App() {
       <Show above="lg">
         <GridItem area="aside" paddingX={5}>
           <GenreList
-            onSelectGenre={(genre) => setSelectedGenre(genre)}
-            selectedGenre={selectedGenre}
+            onSelectGenre={(genre) => setGameQuery({ ...gameQuery, genre })}
+            selectedGenre={gameQuery.genre}
           />
         </GridItem>
       </Show>
       <GridItem area="main">
-        <PlatformSelector
-          selectedPlatfrom={selectedPlatform}
-          onSelectPlatform={(platfrom) => setSelectedPlatform(platfrom)}
-        />
-        {selectedPlatform?.name && (
-          <PlatformClear
-            clearPlatform={(platform) => setSelectedPlatform(platform)}
+        <WrapItem>
+          <PlatformSelector
+            selectedPlatfrom={gameQuery.platform}
+            onSelectPlatform={(platform) =>
+              setGameQuery({ ...gameQuery, platform })
+            }
           />
-        )}
-        <GameGrid
-          selectedPlatform={selectedPlatform}
-          selectedGenre={selectedGenre}
-        />
+          {(gameQuery.platform?.name || gameQuery.genre?.name) && (
+            <PlatformClear
+              clearPlatform={(genre, platform) =>
+                setGameQuery({ ...gameQuery, genre, platform })
+              }
+            />
+          )}
+        </WrapItem>
+        <GameGrid gameQuery={gameQuery} />
       </GridItem>
     </Grid>
   );

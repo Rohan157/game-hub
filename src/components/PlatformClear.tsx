@@ -1,14 +1,17 @@
-import { Button } from "@chakra-ui/react";
+import { MdRefresh } from "react-icons/md";
+import { GameQuery } from "../App";
 
 interface Props {
-  clearPlatform: (platfrom: null) => void;
+  clearPlatform: (platfrom: null, genre: null) => void;
 }
 
 const PlatformClear = ({ clearPlatform }: Props) => {
   return (
-    <Button marginLeft={2} onClick={(platfrom) => clearPlatform(null)}>
-      Clear
-    </Button>
+    <MdRefresh
+      size="40px"
+      color="silver"
+      onClick={(platfrom) => clearPlatform(null, null)}
+    />
   );
 };
 
