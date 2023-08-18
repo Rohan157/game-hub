@@ -5,6 +5,7 @@ import GenreList from "./components/GenreList";
 import { useState } from "react";
 import { Genre } from "./hooks/useGenre";
 import PlatformSelector from "./components/PlatformSelector";
+import { Platform } from "./hooks/useGames";
 
 function App() {
   // Genre is being used in both Genre and Games component so we have to defined the state
@@ -12,7 +13,9 @@ function App() {
   const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
   // Now to update Genre the GenreComponent should tell app.tsx to update the state
   // becasue the component that holds the state should only change it.
-
+  const [selectedPlatform, setSelectedPlatform] = useState<Platform | null>(
+    null
+  );
   return (
     <Grid
       templateAreas={{
@@ -36,8 +39,14 @@ function App() {
         </GridItem>
       </Show>
       <GridItem area="main">
-        <PlatformSelector />
-        <GameGrid selectedGenre={selectedGenre} />
+        <PlatformSelector
+          selectedPlatfrom={selectedPlatform}
+          onSelectPlatform={(platfrom) => setSelectedPlatform(platfrom)}
+        />
+        <GameGrid
+          selectedPlatform={selectedPlatform}
+          selectedGenre={selectedGenre}
+        />
       </GridItem>
     </Grid>
   );
