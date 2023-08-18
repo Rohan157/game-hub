@@ -8,6 +8,7 @@ import PlatformSelector from "./components/PlatformSelector";
 import { Platform } from "./hooks/useGames";
 import PlatformClear from "./components/PlatformClear";
 import SortSelector from "./components/SortSelector";
+import GameHeading from "./components/GameHeading";
 
 export interface GameQuery {
   genre: Genre | null;
@@ -17,12 +18,6 @@ export interface GameQuery {
 }
 
 function App() {
-  // Genre is being used in both Genre and Games component so we have to defined the state
-  //at the closest parent and that in our case is App.tsx
-  //const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
-  // Now to update Genre the GenreComponent should tell app.tsx to update the state
-  // becasue the component that holds the state should only change it.
-  //const [selectedPlatform, setSelectedPlatform] = useState<Platform | null>(null);
   const [gameQuery, setGameQuery] = useState<GameQuery>({} as GameQuery);
   return (
     <Grid
@@ -49,13 +44,8 @@ function App() {
         </GridItem>
       </Show>
       <GridItem area="main">
-        <HStack spacing={5} paddingLeft={8}>
-          <PlatformSelector
-            selectedPlatfrom={gameQuery.platform}
-            onSelectPlatform={(platform) =>
-              setGameQuery({ ...gameQuery, platform })
-            }
-          />
+        <HStack spacing={2}>
+          <GameHeading gameQuery={gameQuery} />
           {(gameQuery.platform?.name || gameQuery.genre?.name) && (
             <PlatformClear
               clearPlatform={(genre, platform) =>
@@ -63,6 +53,14 @@ function App() {
               }
             />
           )}
+        </HStack>
+        <HStack spacing={5} paddingLeft={8}>
+          <PlatformSelector
+            selectedPlatfrom={gameQuery.platform}
+            onSelectPlatform={(platform) =>
+              setGameQuery({ ...gameQuery, platform })
+            }
+          />
           <SortSelector
             onSelectSortOrder={(sortOrder) =>
               setGameQuery({ ...gameQuery, sortOrder })

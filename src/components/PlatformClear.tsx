@@ -10,6 +10,7 @@ const PlatformClear = ({ clearPlatform }: Props) => {
     <MdRefresh
       size="40px"
       color="silver"
+      style={{ marginTop: "10px" }}
       onClick={(platfrom) => clearPlatform(null, null)}
     />
   );
